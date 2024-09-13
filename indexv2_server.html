@@ -7,7 +7,7 @@
 </head>
 <body>
   <div>
-    <script src="${BOTPRESS_URL}/assets/modules/channel-web/inject.js"></script>
+    <script src="http://localhost:3000/assets/modules/channel-web/inject.js"></script>
     <script type="module">
       function checkCookie(name) {
         return Cookies.get(name) !== undefined;
@@ -21,11 +21,11 @@
       }
       let encerrar = false;
       window.botpressWebChat.init({
-      host: "${BOTPRESS_URL}",
+      host: "http://localhost:3000",
       botId: "chatbot_v2_17",
-      extraStylesheet: "${BOTPRESS_URL}/assets/modules/channel-web/style.css",
+      extraStylesheet: "http://localhost:3000/assets/modules/channel-web/style.css",
       layoutWidth: "-",
-      showPoweredBy: false,
+      showPoweredBy: true,
       enableTranscriptDownload: false,
       enableConversationDeletion: true,
       enableReset: false,

@@ -1,26 +1,36 @@
 services:
   botpress:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    #command: bash -c "./duckling & ./bp lang --offline --dim 100 --langDir /botpress & ./bp"
+    user: root
+    command: bash -c "./duckling & ./bp"
+    image: chatbotbp/botpress_brasil_participativo:v1_0_1
     container_name: botpress
-    
     ports:
       - "3000:3000"
-      - "8000:8000"
-      - "3100:3100"
     environment:
+      BP_MODULE_NLU_DUCKLINGURL: "http://nlu_portugues:8000"
+      BP_MODULE_NLU_LANGUAGESOURCES: '[{"endpoint":"http://nlu_portugues:3100"}]'
       BOTPRESS_ADMIN_EMAIL: ${BOTPRESS_ADMIN_EMAIL}
       BOTPRESS_ADMIN_PASSWORD: ${BOTPRESS_ADMIN_PASSWORD}
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      BP_PRODUCTION: true
     depends_on:
       - postgres
-    restart: always
+      - nlu_portugues
     volumes:
       - ./data:/botpress/data
-    
- 
+    networks:
+      - botpress-network
+
+  nlu_portugues:
+    image: gxaite/nlu_portugues:latest
+    container_name: nlu_portugues
+    ports:
+      - "3100:3100"
+      - "8000:8000"
+    command: bash -c "./duckling -p 8000 & ./bp lang --offline --dim 100 --langDir /botpress/NLU --port 3100"
+    networks:
+      - botpress-network
+
   postgres:
     image: postgres:16.2
     container_name: postgres_db_bp
@@ -32,23 +42,13 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    restart: always 
-
-  pgadmin:
-    image: dpage/pgadmin4:8.8
-    container_name: pgadmin
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    restart: always
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    depends_on:
-      -  postgres
+    networks:
+      - botpress-network
 
 volumes:
   postgres_data:
-  pgadmin_data: 
   botpress_data:
+
+networks:
+  botpress-network:
+    driver: bridge

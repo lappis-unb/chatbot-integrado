@@ -5,7 +5,8 @@
     "audience": "external",
     "bots": [
       "chat_bp",
-      "chatbot_botao"
+      "chatbot_botao",
+      "chatbot_v2_17"
     ],
     "roles": [
       {

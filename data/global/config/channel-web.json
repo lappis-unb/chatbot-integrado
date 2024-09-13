@@ -7,6 +7,7 @@
   "uploadsS3AWSAccessSecret": "secret-key",
   "startNewConvoOnTimeout": false,
   "recentConversationLifetime": "6 hours",
+  "alwaysScrollDownOnMessages": false,
   "maxMessageLength": 360,
   "showBotInfoPage": false,
   "fileUploadPath": "./uploads",

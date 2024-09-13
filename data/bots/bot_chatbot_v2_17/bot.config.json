@@ -1,0 +1,61 @@
+{
+  "locked": false,
+  "disabled": false,
+  "private": false,
+  "details": {
+    "website": "",
+    "phoneNumber": "",
+    "emailAddress": "",
+    "termsConditions": "",
+    "privacyPolicy": "",
+    "avatarUrl": "/api/v1/bots/BOT_ID_PLACEHOLDER/media/98rd2pas4f2z8xbdofrh-Avatar%20-%20BP.png",
+    "coverPictureUrl": "/api/v1/bots/BOT_ID_PLACEHOLDER/media/s64hhxx6gorpqdw3a6zc-Avatar%20-%20BP.png"
+  },
+  "$schema": "../../bot.config.schema.json",
+  "description": "",
+  "active": true,
+  "version": "12.31.6",
+  "author": "Botpress, Inc.",
+  "license": "AGPL-3.0",
+  "imports": {
+    "modules": [],
+    "incomingMiddleware": [],
+    "outgoingMiddleware": [],
+    "contentTypes": [
+      "builtin_action-button",
+      "builtin_audio",
+      "builtin_card",
+      "builtin_carousel",
+      "dropdown",
+      "builtin_file",
+      "builtin_image",
+      "builtin_location",
+      "builtin_single-choice",
+      "builtin_text",
+      "builtin_video"
+    ]
+  },
+  "dialog": {
+    "timeoutInterval": "5m"
+  },
+  "logs": {
+    "expiration": "1 week"
+  },
+  "defaultLanguage": "pt",
+  "languages": [
+    "pt"
+  ],
+  "id": "chatbot_v2_17",
+  "name": "Chatbot v2.17",
+  "pipeline_status": {
+    "current_stage": {
+      "id": "prod",
+      "promoted_on": "2024-07-01T11:47:16.827Z",
+      "promoted_by": "system"
+    }
+  },
+  "messaging": {
+    "id": "98a250b2-88de-419e-8dbb-96da617cd9f2",
+    "token": "qwyZK+LBzhxljq5uO9vw/1R5bI1qXYiHFyx0y0+B+K4zfcF9eZGGv7ACqeBGbQzrEWGg+mQ6TIaSL4qryiMf4ccK"
+  }
+}
