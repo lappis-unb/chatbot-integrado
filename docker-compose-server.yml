@@ -9,7 +9,6 @@ services:
     ports:
       - "3000:3000"
       - "8000:8000"
-      - "3100:3100"
     environment:
       BOTPRESS_ADMIN_EMAIL: ${BOTPRESS_ADMIN_EMAIL}
       BOTPRESS_ADMIN_PASSWORD: ${BOTPRESS_ADMIN_PASSWORD}
