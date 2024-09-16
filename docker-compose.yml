@@ -1,6 +1,5 @@
 services:
   botpress:
-    user: "0" # root precisamos ver uma solução para esse problema
     command: bash -c "./bp"
     image: chatbotbp/botpress_brasil_participativo:v1_0_1
     container_name: botpress
