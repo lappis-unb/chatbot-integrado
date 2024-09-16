@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o k8s-deployment/
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: botpress
+  name: botpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: botpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o k8s-deployment/
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: botpress
+    spec:
+      containers:
+        - args:
+            - bash
+            - -c
+            - ./bp
+          env:
+            - name: BOTPRESS_ADMIN_EMAIL
+            - name: BOTPRESS_ADMIN_PASSWORD
+            - name: BP_MODULE_NLU_DUCKLINGURL
+              value: http://nlu_portugues:8000
+            - name: BP_MODULE_NLU_LANGUAGESOURCES
+              value: '[{"endpoint":"http://nlu_portugues:3100"}]'
+            - name: BP_PRODUCTION
+              value: "true"
+            - name: DATABASE_URL
+              value: postgres://:@{POSTGRES_HOST}:5432/
+          image: chatbotbp/botpress_brasil_participativo:v1_0_1
+          name: botpress
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          securityContext:
+            runAsUser: 0
+      restartPolicy: Always
