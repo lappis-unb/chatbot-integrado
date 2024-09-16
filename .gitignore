@@ -1,2 +1,2 @@
 .env
-./k8s-deployment/botpress-secrets.yaml
+k8s-deployment/botpress-secrets.yaml
