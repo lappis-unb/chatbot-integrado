@@ -13,28 +13,15 @@ before_script:
 
 workflow:
   rules:
-    # A pipeline será executada apenas se a tag do commit seguir o padrão "NLU"
     - if: '$CI_COMMIT_TAG =~ /NLU/'
 
 stages:
-  - build
-  - push
+  - build_and_push
 
-build_image:
-  stage: build
+build_and_push_image:
+  stage: build_and_push
   script:
-    # Construindo a imagem Docker com o nome baseado no commit/tag
     - docker build -t $IMAGE_NAME ./nlu
-  only:
-    # A pipeline só rodará em commits que possuem tags
-    - tags
-
-push_image:
-  stage: push
-  needs: ["build_image"]
-  script:
-    # Após a imagem ser construída, ela será enviada para o GitLab Registry
     - docker push $IMAGE_NAME
   only:
-    # O push da imagem será realizado apenas em commits com tags
     - tags
