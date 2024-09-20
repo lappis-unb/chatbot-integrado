@@ -1,7 +1,7 @@
 services:
   botpress:
     command: bash -c "./bp"
-    image: chatbotbp/botpress_brasil_participativo:v1_0_1
+    image: registry.gitlab.com/lappis-unb/decidimbr/botpress-build-customizada:bp-custom-V1.0.7
     container_name: botpress
     ports:
       - "3000:3000"
@@ -10,18 +10,19 @@ services:
       BP_MODULE_NLU_LANGUAGESOURCES: '[{"endpoint":"http://nlu_portugues:3100"}]'
       BOTPRESS_ADMIN_EMAIL: ${BOTPRESS_ADMIN_EMAIL}
       BOTPRESS_ADMIN_PASSWORD: ${BOTPRESS_ADMIN_PASSWORD}
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
 
       BP_PRODUCTION: true
     depends_on:
       - nlu_portugues
+      - postgres  
     volumes:
       - ./data:/botpress/data
     networks:
       - botpress-network
 
   nlu_portugues:
-    image: gxaite/nlu_portugues:latest
+    image: registry.gitlab.com/lappis-unb/decidimbr/chatbot-integrado/botpress-nlu-ptbr:NLU-v1.1
     container_name: nlu_portugues
     expose:
       - "3100:3100"
@@ -29,6 +30,24 @@ services:
     command: bash -c "./duckling -p 8000 & ./bp lang --offline --dim 100 --langDir /botpress/NLU --port 3100"
     networks:
       - botpress-network
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - botpress-network
+    
+    
 
 volumes:
   botpress_data:
